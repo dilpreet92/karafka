@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+## Patched consumer group method
 module Karafka
   # Both Karafka and Ruby-Kafka contain a lot of settings that can be applied on multiple
   # levels. In Karafka that is on consumer group and on the topic level. In Ruby-Kafka it
@@ -56,11 +56,10 @@ module Karafka
         # This is a drity and bad hack of dry-configurable to get keys before setting values
         dynamically_proxied = Karafka::Setup::Config
                               ._settings
-                              .settings
                               .find { |s| s.name == :kafka }
                               .value
-                              .names
-                              .to_a
+                              .values
+                              .keys
 
         (defined_settings + dynamically_proxied).uniq + karafka_settings - ignored_settings
       end
